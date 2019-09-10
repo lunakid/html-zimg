@@ -1,0 +1,23 @@
+===============================================================================
+ TODO:
+===============================================================================
+- Get rid of the hardcoded styling.
+- Templatize/componentize!
+  (e.g. https://dev.to/bennypowers/lets-build-web-components-part-1-the-standards-3e85)
+- Fix: The magniifer is 1px more inside in normal in-place mode than in the basic!
+- The border styles (i.e. the rounded corners) are not the same yet.
+- Off by one error in IE11 (didn't try Edge): garbage at the top of the zoom view.
+
+
+===============================================================================
+ DONE:
+===============================================================================
+
+2019/09/10
+
++ Fix that mysterious 2-3px bottom junk space in popup and inplace mode!
+  - It is actually triggered by <!DOCTYPE html>! :-o If it's not there, no anomaly!
+    + OK, it was the "descender gap" because of img being an inline element by default!
++ That same space makes the magnifier glass being offset in popup mode, because
+  in that mode the mag. icon can't be in FIGURE, only in the main DIV, which has
+  its strangely offset bottom, misplacing the magnifier icon...
