@@ -60,6 +60,8 @@ div.zoomable {
 /* In this mode, there's no separate thumbnail, so the full-size image is shown
    when no zooming, to reset the panning position & zoom level. */
 
+.zoomable.basic img.thumb { display: none; }
+
 .zoomable.basic figure.zoom:hover {
 	width: 500px; width: var(--zoom-w);
 	transition: width 0.1s;
@@ -69,8 +71,8 @@ div.zoomable {
 
 /*--- In-place zoom ---------------------------------------------------------*/
 
-/* In this mode, there's a separate thumbnail to support proper sizing despite
-   the zoomed view not being part of the content flow (-> `pos.: abs.`). */
+/* In this mode, there's a separate thumbnail to support proper sizing, because
+   the zoomed view is not part of the content flow (-> `pos.: abs.`). */
 
 .zoomable.inplace figure.zoom {
 	position: absolute; /* cover the thumbnail, wo. affecting the layout */

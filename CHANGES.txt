@@ -3,8 +3,8 @@
 ===============================================================================
 - Get rid of the hardcoded styling.
 - Templatize/componentize!
-  (e.g. https://dev.to/bennypowers/lets-build-web-components-part-1-the-standards-3e85)
-- Fix: The magniifer is 1px more inside in normal in-place mode than in the basic!
+  (e.g. https://dev.to/bennypowers/lets-build-web-components-part-1-the-standards-3e85,
+  https://css-tricks.com/an-introduction-to-web-components/)
 - The border styles (i.e. the rounded corners) are not the same yet.
 - Off by one error in IE11 (didn't try Edge): garbage at the top of the zoom view.
 
@@ -14,6 +14,11 @@
 ===============================================================================
 
 2019/09/10
+
++ Unified DOM.
+
++ Fix: The magniifer is 1px more inside in normal in-place mode than in the basic!
+  (The unified DOM layout fixed this.)
 
 + Fix that mysterious 2-3px bottom junk space in popup and inplace mode!
   - It is actually triggered by <!DOCTYPE html>! :-o If it's not there, no anomaly!
