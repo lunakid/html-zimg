@@ -1,42 +1,61 @@
 ===============================================================================
  TODO:
 ===============================================================================
+- Fix: forgot to finish the 'class' -> 'mode' transition!
+- Fix: Style: Magnifier icon should be positioned to relative to the thumbnail,
+  not the host rect (because it will go way off the image with display: block).
+- Fix: Style: Mysterious uneven spacing in the first test case...
+  - Also in FF!
+  -> 0 margin is OK, 1em seems even. Happens with a homogeneous series of elements, too!
+- Workaround: FF: Moving off the zoom view leaves the hover state on in Firefox.
+- Workaround: CH: Chrome has a bug, where scrolling the thumb out from under the
+  mouse pointer (e.g using the mouse wheel -- but not the keyboard...), it will
+  still think the element is being hovered, so the zoom view be flickering on
+  and off, when hovering over the *old* place of the element...
+- Add click event to stop zooming.
+  Not so easy though, as the next event could be hover again, instantly reopening
+  the zoom/pan view... Needs state management chores, and e.g. OnMouseOut, too...
 - Move that freestanding event handler to the component's class scope!
 - Simplify the model: maybe sometimes the internal image or the thumb can be omitted.
 - Add some transparent frame (pseudo margin) to the zoomed views by default.
 - Off by one error in IE11 (didn't try Edge): garbage at the top of the zoom view.
 - Support height-constrained thumbnails, too!
-- Support width AND hight constraints for thumbs, with some default autocropping/-padding...
+- Support simultaneous width AND height constraints for thumbs,
+  with some default autocropping/-padding.
 
 
 ===============================================================================
  DONE:
 ===============================================================================
 
+2019/09/11
+
++ Better test page (better coverage, more systematic, explanations).
++ Default 1px grey border added.
+
+
 2019/09/11: v0.1
 
-- Custom props explicitly supported for styling.
-  - Now also border radius for the zoomed view.
-- Fix: Style: Regressions after migrated to web component:
++ Custom props explicitly supported for styling.
+  + Now also border radius for the zoomed view.
++ Fix: Style: Regressions after migrated to web component:
   + border anomaly of inplace mode
   + magnifier icon misplacements (again)
   + leftover zeroing of host margin/padding
-- Fix: Style: Curious extra space between (around? within?) the elements.
-- Fix: Style: Border styles (i.e. the rounded corners) are not the same yet.
-- Fix: Style: missing var(thumb-w) for popup mode (misplaced zoom view).
-- Templatize/componentize!
++ Fix: Style: Curious extra space between (around? within?) the elements.
++ Fix: Style: Border styles (i.e. the rounded corners) are not the same yet.
++ Fix: Style: missing var(thumb-w) for popup mode (misplaced zoom view).
++ Templatize/componentize!
   (e.g. https://dev.to/bennypowers/lets-build-web-components-part-1-the-standards-3e85,
   https://css-tricks.com/an-introduction-to-web-components/)
-- Get rid of the hardcoded styling.
++ Get rid of the hardcoded styling.
  
 
 2019/09/10
 
 + Unified DOM.
-
 + Fix: The magniifer is 1px more inside in normal in-place mode than in the basic!
   (The unified DOM layout fixed this.)
-
 + Fix that mysterious 2-3px bottom junk space in popup and inplace mode!
   - It is actually triggered by <!DOCTYPE html>! :-o If it's not there, no anomaly!
     + OK, it was the "descender gap" because of img being an inline element by default!

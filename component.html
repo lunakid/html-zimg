@@ -11,6 +11,8 @@
 	--z-zoomv-border-c:  var(--zoomv-border-c, grey);
 	--z-zoomv-border-r:	 var(--zoomv-border-r, 2px);
 
+	border: 1px solid grey; /* Clients can override/disable; I find it better to have it by default. */
+
 	position: relative;
 	display: inline-block; /*! This kills (viewport-)width-percent sizing, unfortunately. */
 	vertical-align: top;
