@@ -2,40 +2,36 @@
 <style>
 /*--- Common ----------------------------------------------------------------*/
 :host {
-	background: red; /*!!DEBUG!!*/
-
-	--thumb-w: 100px;
-	/*--zoom-w: 25%;*/
-	--zoom-w: 500px;
-	--zoomv-border-w: 2px;
-	--zoomv-border-c: green;
+	/* Defaults for the custom props.
+	   (NOTE: CSS is too stupid to allow optional init of the same prop. :-/ ) */
+	--z-thumb-w:         var(--thumb-w, 100px);
+	--z-zoomv-w:         var(--zoomv-w, 500px);
+	--z-zoomv-border-w:  var(--zoomv-border-w, 1px);
+	--z-zoomv-border-s:  var(--zoomv-border-s, solid);
+	--z-zoomv-border-c:  var(--zoomv-border-c, grey);
+	--z-zoomv-border-r:	 var(--zoomv-border-r, 2px);
 
 	position: relative;
-	display: inline-block; /*! Enabling this kills (viewport-)width-percent sizing, though! */
+	display: inline-block; /*! This kills (viewport-)width-percent sizing, unfortunately. */
 	vertical-align: top;
 }
-:host, #zoomview, img { margin: 0; padding: 0; }
-
-#zoomview {
-	-display: inline-block; /*!!?? This adds the same 2-3 px mysterious bottom offset to the (unpadded) content in
-	                               basic mode, which is also there already in the two other modes... :-o */
-	background-position: 50% 50%;
-	width: 100px; width: var(--thumb-w);
-	overflow: hidden;
-	cursor: zoom-in;
-	
-	/* Repeated, since popup mode will use a separate rect.! */
-	border: var(--zoomv-border-w) solid var(--zoomv-border-c);
-	-border-radius: 2px;
-}
+#zoomview, img { margin: 0; padding: 0; }
 
 img {
 	display: block; /* Get rid of the descender gap below the images... */
 }
 
+#zoomview {
+	background-position: 50% 50%;
+	width: 100px; width: var(--z-thumb-w);
+	overflow: hidden;
+	cursor: zoom-in;
+}
+
+
 /* thumbnail */
 #thumb {
-	width: 100px; width: var(--thumb-w);
+	width: 100px; width: var(--z-thumb-w);
 	cursor: zoom-in;
 }
 /* full-size img */
@@ -65,14 +61,13 @@ img {
 /* In this mode, there's no separate thumbnail, so the full-size image is shown
    when no zooming, to reset the panning position & zoom level. */
 
-:host(.basic) { border: 10px solid red; }
-
 :host(.basic) #thumb { display: none; }
 
 :host(.basic) #zoomview:hover {
-	width: 500px; width: var(--zoom-w);
+	width: 500px; width: var(--z-zoomv-w);
 	transition: width 0.1s;
-	-border: 2px solid red;
+	border: var(--z-zoomv-border-w) var(--z-zoomv-border-s) var(--z-zoomv-border-c);
+	border-radius: var(--z-zoomv-border-r); /* Does nothing, for some reason, perhaps only inside another border... */
 }
 
 /*--- In-place zoom ---------------------------------------------------------*/
@@ -80,18 +75,16 @@ img {
 /* In this mode, there's a separate thumbnail to support proper sizing, because
    the zoomed view is not part of the content flow (-> `pos.: abs.`). */
 
-:host(.inplace) { border: 10px solid green; }
-
 :host(.inplace) #zoomview {
 	position: absolute; /* cover the thumbnail, wo. affecting the layout */
 	top: 0; left: 0;
-	width: 100px; width: var(--thumb-w);
-	-border-radius: 3px;
+	width: 100px; width: var(--z-thumb-w);
 }
 :host(.inplace) #zoomview:hover {
-	width: 500px; width: var(--zoom-w);
+	width: 500px; width: var(--z-zoomv-w);
 	z-index: 10; /* some subsequent elements did cover this otherwise */
-	-border: 2px solid darkred;
+	border: var(--z-zoomv-border-w) var(--z-zoomv-border-s) var(--z-zoomv-border-c);
+	border-radius: var(--z-zoomv-border-r);;
 }
 
 /*--- Popup zoom ------------------------------------------------------------*/
@@ -99,19 +92,17 @@ img {
 /* In this mode, the full-size image must be explicitly hidden, as the default
    "hide on hover" does not apply here (because it's a different element). */
 
-:host(.popup) { border: 10px solid blue; }
-
 :host(.popup) #zoomview img { visibility: hidden; }
 :host(.popup) #zoomview { display: none; }
 :host(.popup) > img:hover ~ #zoomview {
 	display: inline; /* turn displaying back on; `inline` for preserving the vert. pos. */
 	position: absolute; /* remove from flow, leave original pos. */
-	top: 0;	left: 100px; left: --thumb-w;
+	top: 0;	left: 100px; left: var(--z-thumb-w);
 	margin-left: 1ex; margin-top: -1ex;
-	width: 500px; width: var(--zoom-w);
+	width: 500px; width: var(--z-zoomv-w);
 	z-index: 10; /* some subsequent elements did cover this otherwise */
-	-border: 2px solid gray;
-	-border-radius: 3px;
+	border: var(--z-zoomv-border-w) var(--z-zoomv-border-s) var(--z-zoomv-border-c);
+	border-radius: var(--z-zoomv-border-r);;
 }
 </style>
 

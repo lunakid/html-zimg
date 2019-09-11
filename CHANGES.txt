@@ -1,13 +1,9 @@
 ===============================================================================
  TODO:
 ===============================================================================
-- Fix styling regressions after migrated to web component:
-  + border anomaly of inplace mode
-  + magnifier icon misplacements (again)
-  + curious extra spacing between the elements
+- Move that freestanding event handler to the component's class scope!
 - Simplify the model: maybe sometimes the internal image or the thumb can be omitted.
-- Add some transparent frame (pseudo margin) to the zoomed views!
-- The border styles (i.e. the rounded corners) are not the same yet.
+- Add some transparent frame (pseudo margin) to the zoomed views by default.
 - Off by one error in IE11 (didn't try Edge): garbage at the top of the zoom view.
 - Support height-constrained thumbnails, too!
 - Support width AND hight constraints for thumbs, with some default autocropping/-padding...
@@ -17,8 +13,17 @@
  DONE:
 ===============================================================================
 
-2019/09/11
+2019/09/11: v0.1
 
+- Custom props explicitly supported for styling.
+  - Now also border radius for the zoomed view.
+- Fix: Style: Regressions after migrated to web component:
+  + border anomaly of inplace mode
+  + magnifier icon misplacements (again)
+  + leftover zeroing of host margin/padding
+- Fix: Style: Curious extra space between (around? within?) the elements.
+- Fix: Style: Border styles (i.e. the rounded corners) are not the same yet.
+- Fix: Style: missing var(thumb-w) for popup mode (misplaced zoom view).
 - Templatize/componentize!
   (e.g. https://dev.to/bennypowers/lets-build-web-components-part-1-the-standards-3e85,
   https://css-tricks.com/an-introduction-to-web-components/)

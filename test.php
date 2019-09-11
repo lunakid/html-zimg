@@ -8,7 +8,18 @@
 
 <style>
 z-img {
-	border: 4px solid pink;
+	background: red; /*!!DEBUG!!*/
+
+	--thumb-w: 150px;
+/*
+	--zoomv-w: 25%;	--zoomv-w: 300px;
+	--zoomv-border-w: 2px;
+	--zoomv-border-c: green;
+	--zoomv-border-s: solid;
+	--zoomv-border-r: 5px;
+*/
+
+	border: 2px solid pink;
 	margin: 2px 0.5ex;
 }
 </style>
