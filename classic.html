@@ -4,17 +4,19 @@
 
 /* container */
 div.zoomable {
-	position: relative;
-	display: inline-block; /*! Enabling this kills (viewport-)width-percent sizing. */
-	vertical-align: top;
-	margin: 2px 0.5ex;	
-	
 	-background: red; /*!!DEBUG!!*/
 	
 	--thumb-w: 100px;
 	/*--zoom-w: 25%;*/
 	--zoom-w: 500px;
 	--border-c: grey;
+	
+	position: relative;
+	display: inline-block; /*! Enabling this kills (viewport-)width-percent sizing. */
+	vertical-align: top;
+
+	border: 1px solid gray; border: 1px solid var(--border-c);
+	margin: 2px 0.5ex;	
 }
 .zoomable figure.zoom, .zoomable img { margin: 0; padding: 0; }
 .zoomable figure.zoom {
@@ -24,8 +26,10 @@ div.zoomable {
 	width: 100px; width: var(--thumb-w);
 	overflow: hidden;
 	cursor: zoom-in;
-	border: 1px solid gray; border: 1px solid var(--border-c);
-	border-radius: 2px;
+	
+	/* Repeated, since popup mode will use a separate rect.! */
+	-border: 1px solid gray; border: 1px solid var(--border-c);
+	-border-radius: 2px;
 }
 
 .zoomable img {
@@ -51,7 +55,6 @@ div.zoomable {
 /* thumbnail */
 .zoomable .thumb {
 	width: 100px; width: var(--thumb-w);
-	border: 1px solid gray; border: 1px solid var(--border-c);
 	cursor: zoom-in;
 }
 
@@ -65,7 +68,7 @@ div.zoomable {
 .zoomable.basic figure.zoom:hover {
 	width: 500px; width: var(--zoom-w);
 	transition: width 0.1s;
-	border: 2px solid red;
+	-border: 2px solid red;
 }
 
 
@@ -78,12 +81,12 @@ div.zoomable {
 	position: absolute; /* cover the thumbnail, wo. affecting the layout */
 	top: 0; left: 0;
 	width: 100px; width: var(--thumb-w);
-	border-radius: 3px;
+	-border-radius: 3px;
 }
 .zoomable.inplace figure.zoom:hover {
 	width: 500px; width: var(--zoom-w);
 	z-index: 10; /* some subsequent elements did cover this otherwise */
-	border: 2px solid darkred;
+	-border: 2px solid darkred;
 }
 
 
@@ -104,8 +107,8 @@ div.zoomable {
 	margin-left: 1ex; margin-top: -1ex;
 	width: 500px; width: var(--zoom-w);
 	z-index: 10; /* some subsequent elements did cover this otherwise */
-	border: 2px solid gray;
-	border-radius: 3px;
+	-border: 2px solid gray;
+	-border-radius: 3px;
 }
 
 </style>
@@ -136,4 +139,47 @@ function zoom(e) {
 function popup_zoom(e) {
 	zoompanner(e, e.currentTarget, e.currentTarget.nextElementSibling);
 }
+
+//----------------------------------------
+customElements.define('z-img', class extends HTMLElement {
+	constructor() {
+		super();
+
+		// "Host" attributes are not available in the ctor!
+		//console.log("zimg ctor, this.classList=" + this.classList);
+
+		this.tpl = document.getElementById('zoomable-img').content;  
+		this.shdom = this.attachShadow({mode: 'open'});
+		this.shdom.appendChild(this.tpl.cloneNode(true));
+
+		console.log("zimg ctor: " + this.shdom)
+	}
+	
+	connectedCallback() {
+		console.log("zimg connect: this.classList=" + this.classList
+			+ ", src=" + this.getAttribute('src'));
+
+		var src = this.getAttribute('src');
+		var thumb = this.shdom.getElementById('thumb');
+		var large = this.shdom.getElementById('large');
+		var zoomv = this.shdom.getElementById('zoomview');
+		
+		// Set the 'src' img URL where needed:
+		thumb.setAttribute('src', src);
+		large.setAttribute('src', src);
+		zoomv.style = 'background-image: url(' + src + ')';
+		
+		// Setup the event handlers:
+		var mode = this.getAttribute('zoom');
+		var omm_teh = (mode == 'popup' ? this.popup_zoom : '');
+		var omm_feh = (mode == 'popup' ? '' : this.zoom);
+		if (omm_teh) { console.log("set thumb handler -> " + omm_teh); thumb.addEventListener('mousemove', omm_teh); }
+		if (omm_feh) { console.log("set fig handler -> " + omm_feh); zoomv.addEventListener('mousemove', omm_feh); }
+	}
+
+	zoom(e)       { zoompanner(e, e.currentTarget, e.currentTarget); }
+	popup_zoom(e) { zoompanner(e, e.currentTarget, e.currentTarget.nextElementSibling); }
+
+});
+
 </script>

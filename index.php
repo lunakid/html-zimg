@@ -1,2 +1,2 @@
 <?php
-include "zoomer-test.php";
+include "test.php";

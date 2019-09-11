@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<template id="zoomable-img">
+<style>
+/*--- Common ----------------------------------------------------------------*/
+:host {
+	background: red; /*!!DEBUG!!*/
+
+	--thumb-w: 100px;
+	/*--zoom-w: 25%;*/
+	--zoom-w: 500px;
+	--zoomv-border-w: 2px;
+	--zoomv-border-c: green;
+
+	position: relative;
+	display: inline-block; /*! Enabling this kills (viewport-)width-percent sizing, though! */
+	vertical-align: top;
+}
+:host, #zoomview, img { margin: 0; padding: 0; }
+
+#zoomview {
+	-display: inline-block; /*!!?? This adds the same 2-3 px mysterious bottom offset to the (unpadded) content in
+	                               basic mode, which is also there already in the two other modes... :-o */
+	background-position: 50% 50%;
+	width: 100px; width: var(--thumb-w);
+	overflow: hidden;
+	cursor: zoom-in;
+	
+	/* Repeated, since popup mode will use a separate rect.! */
+	border: var(--zoomv-border-w) solid var(--zoomv-border-c);
+	-border-radius: 2px;
+}
+
+img {
+	display: block; /* Get rid of the descender gap below the images... */
+}
+
+/* thumbnail */
+#thumb {
+	width: 100px; width: var(--thumb-w);
+	cursor: zoom-in;
+}
+/* full-size img */
+#zoomview img {
+	width: 100%; /* Without this, the image will grow to a full-height, but horiz. cropped narrow rectangle! */
+}
+/* Hide the full-size image, while zooming/panning, allowing to show the backgnd. img. */
+/* This img. also a) guides the aspect-ratio when sizing the FIGURE,
+   and b) resets to thumbnail view, when not zooming. */
+#zoomview:hover img { visibility: hidden; }
+
+#magicon {
+	user-select: none;
+	position: absolute;
+	bottom: 0; right: 0;
+	background: lightblue; opacity: 0.3; border: 1px dotted black;
+	padding: 1px 2px;
+}
+/* Alternative way to show the mag. symbol, but restricted to plain text: */
+/*#magicon::before { inline; content: "🔍"; } */
+
+:host(:hover) #magicon { visibility: hidden; }
+
+
+/*--- Basic in-place zoom ---------------------------------------------------*/
+
+/* In this mode, there's no separate thumbnail, so the full-size image is shown
+   when no zooming, to reset the panning position & zoom level. */
+
+:host(.basic) { border: 10px solid red; }
+
+:host(.basic) #thumb { display: none; }
+
+:host(.basic) #zoomview:hover {
+	width: 500px; width: var(--zoom-w);
+	transition: width 0.1s;
+	-border: 2px solid red;
+}
+
+/*--- In-place zoom ---------------------------------------------------------*/
+
+/* In this mode, there's a separate thumbnail to support proper sizing, because
+   the zoomed view is not part of the content flow (-> `pos.: abs.`). */
+
+:host(.inplace) { border: 10px solid green; }
+
+:host(.inplace) #zoomview {
+	position: absolute; /* cover the thumbnail, wo. affecting the layout */
+	top: 0; left: 0;
+	width: 100px; width: var(--thumb-w);
+	-border-radius: 3px;
+}
+:host(.inplace) #zoomview:hover {
+	width: 500px; width: var(--zoom-w);
+	z-index: 10; /* some subsequent elements did cover this otherwise */
+	-border: 2px solid darkred;
+}
+
+/*--- Popup zoom ------------------------------------------------------------*/
+/* The magnified view is as separate image, only shown, when hovering the thumb. */
+/* In this mode, the full-size image must be explicitly hidden, as the default
+   "hide on hover" does not apply here (because it's a different element). */
+
+:host(.popup) { border: 10px solid blue; }
+
+:host(.popup) #zoomview img { visibility: hidden; }
+:host(.popup) #zoomview { display: none; }
+:host(.popup) > img:hover ~ #zoomview {
+	display: inline; /* turn displaying back on; `inline` for preserving the vert. pos. */
+	position: absolute; /* remove from flow, leave original pos. */
+	top: 0;	left: 100px; left: --thumb-w;
+	margin-left: 1ex; margin-top: -1ex;
+	width: 500px; width: var(--zoom-w);
+	z-index: 10; /* some subsequent elements did cover this otherwise */
+	-border: 2px solid gray;
+	-border-radius: 3px;
+}
+</style>
+
+<img id='thumb' src='placeholder.jpg' onmousemove=''>
+<figure id='zoomview' style='background-image: url(placeholder.jpg)' onmousemove=''>
+<img id='large' src='placeholder.jpg'>
+</figure>
+<div id='magicon'>🔍</div>
+</template>
+
+<script>
+function zoompanner(e, zoompad, zoomview) {
+	var img = zoomview.getElementsByTagName('img')[0];
+	if (img.naturalHeight < img.height || img.naturalWidth < img.width) {
+	    zoomview.style.backgroundSize = 'cover';
+	    return;
+	}
+	e.offsetX !== null ? offsetX = e.offsetX : offsetX = e.touches[0].pageX;
+	e.offsetY !== null ? offsetY = e.offsetY : offsetY = e.touches[0].pageY;
+	//console.log("X=" + offsetX + ", Y=" + offsetY);
+	x = offsetX / zoompad.offsetWidth * 100
+	y = offsetY / zoompad.offsetHeight * 100
+	// Yes, it did go to negative at the edges (depending on the cursor?), causing wraparound of the bg img...:
+	if (x < 0) x = 0;
+	if (y < 0) y = 0;
+	//console.log(zoomview.style.backgroundPosition + " --> " + "zbX=" + x + ", zbY=" + y);
+	zoomview.style.backgroundPosition = x + '% ' + y + '%';
+}
+
+//----------------------------------------
+customElements.define('z-img', class extends HTMLElement {
+	constructor() {
+		super();
+
+		// "Host" attributes are not available in the ctor!
+		//console.log("zimg ctor, this.classList=" + this.classList);
+
+		this.tpl = document.getElementById('zoomable-img').content;  
+		this.shdom = this.attachShadow({mode: 'open'});
+		this.shdom.appendChild(this.tpl.cloneNode(true));
+
+		console.log("zimg ctor: " + this.shdom)
+	}
+	
+	connectedCallback() {
+		console.log("zimg connect: this.classList=" + this.classList
+			+ ", src=" + this.getAttribute('src'));
+
+		var src = this.getAttribute('src');
+		var thumb = this.shdom.getElementById('thumb');
+		var large = this.shdom.getElementById('large');
+		var zoomv = this.shdom.getElementById('zoomview');
+		
+		// Set the 'src' img URL where needed:
+		thumb.setAttribute('src', src);
+		large.setAttribute('src', src);
+		zoomv.style = 'background-image: url(' + src + ')';
+		
+		// Setup the event handlers:
+		var mode = this.getAttribute('zoom');
+		var omm_teh = (mode == 'popup' ? this.popup_zoom : '');
+		var omm_feh = (mode == 'popup' ? '' : this.zoom);
+		if (omm_teh) { console.log("set thumb handler -> " + omm_teh); thumb.addEventListener('mousemove', omm_teh); }
+		if (omm_feh) { console.log("set fig handler -> " + omm_feh); zoomv.addEventListener('mousemove', omm_feh); }
+	}
+
+	zoom(e)       { zoompanner(e, e.currentTarget, e.currentTarget); }
+	popup_zoom(e) { zoompanner(e, e.currentTarget, e.currentTarget.nextElementSibling); }
+
+});
+</script>
+
+<!--- TEST... ---------------------------------------------------------------->
+<style>
+z-img {
+	border: 4px solid pink;
+	margin: 2px 0.5ex;
+}
+</style>
+
+<z-img zoom="basic"   class="basic"   src="example.jpg">BASIC in-place mode
+</z-img><z-img zoom="inplace" class="inplace" src="example.jpg">IN-PLACE mode
+</z-img><z-img zoom="popup"   class="popup"   src="example.jpg">POPUP mode</z-img>
+
+<hr>
+
+<z-img zoom="basic"   class="basic"   src="example.jpg">BASIC in-place mode</z-img>
+<z-img zoom="inplace" class="inplace" src="example.jpg">IN-PLACE mode</z-img>
+<z-img zoom="popup"   class="popup"   src="example.jpg">POPUP mode</z-img>
+<hr>

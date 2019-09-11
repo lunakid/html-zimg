@@ -1,10 +1,12 @@
 ===============================================================================
  TODO:
 ===============================================================================
-- Get rid of the hardcoded styling.
-- Templatize/componentize!
-  (e.g. https://dev.to/bennypowers/lets-build-web-components-part-1-the-standards-3e85,
-  https://css-tricks.com/an-introduction-to-web-components/)
+- Fix styling regressions after migrated to web component:
+  + border anomaly of inplace mode
+  + magnifier icon misplacements (again)
+  + curious extra spacing between the elements
+- Simplify the model: maybe sometimes the internal image or the thumb can be omitted.
+- Add some transparent frame (pseudo margin) to the zoomed views!
 - The border styles (i.e. the rounded corners) are not the same yet.
 - Off by one error in IE11 (didn't try Edge): garbage at the top of the zoom view.
 
@@ -12,6 +14,14 @@
 ===============================================================================
  DONE:
 ===============================================================================
+
+2019/09/11
+
+- Templatize/componentize!
+  (e.g. https://dev.to/bennypowers/lets-build-web-components-part-1-the-standards-3e85,
+  https://css-tricks.com/an-introduction-to-web-components/)
+- Get rid of the hardcoded styling.
+ 
 
 2019/09/10
 
