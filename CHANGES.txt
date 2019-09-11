@@ -2,12 +2,12 @@
  TODO:
 ===============================================================================
 - Try to reposition the zoom view, if clipped by window edges.
-- Fix: forgot to finish the 'class' -> 'mode' transition!
 - Fix: Style: Magnifier icon should be positioned relative to the thumbnail,
   not the host rect (because it will go way off the image with display: block).
 - Fix: Style: Mysterious uneven spacing in the first test case...
   - Also in FF!
   -> 0 margin is OK, 1em seems even. Happens with a homogeneous series of elements, too!
+- Fix: Transition effect for zoom in popup mode does nothing.
 - Workaround: FF: Moving off the zoom view leaves the hover state on in Firefox.
 - Workaround: CH: Chrome has a bug, where scrolling the thumb out from under the
   mouse pointer (e.g using the mouse wheel -- but not the keyboard...), it will
@@ -16,20 +16,19 @@
 - Add click event to stop zooming.
   Not so easy though, as the next event could be hover again, instantly reopening
   the zoom/pan view... Needs state management chores, and e.g. OnMouseOut, too...
-- Move that freestanding event handler to the component's class scope!
 - Simplify the model: maybe sometimes the internal image or the thumb can be omitted.
 - Add some transparent frame (pseudo margin) to the zoomed views by default.
 - Off by one error in IE11 (didn't try Edge): garbage at the top of the zoom view.
 - Support height-constrained thumbnails, too!
-- Support simultaneous width AND height constraints for thumbs,
-  with some default autocropping/-padding.
+- Support simultaneous width AND height constraints for thumbs, with some default
+  autocropping/-padding.
 
 
 ===============================================================================
  DONE:
 ===============================================================================
 
-2019/09/11
+2019/09/11: 0.2
 
 + Better test page (better coverage, more systematic, explanations).
   + Also: stop offering the obsolete test page.
@@ -38,6 +37,15 @@
   an ugly double frame.
 + Added customizable styling props for the magnifier icon.
 + Changed the default icon bg. from lightblue to lightgrey.
++ Fix: forgot to finish the 'class' -> 'mode' transition...
+  + Well, actually just undone it: setting `class` is just fine.
+  + Only thing to make sure is a reasonable default (now: "popup").
++ Debug console.logs disabled.
++ Leftover transition effect for zoom in basic mode.
+  + Add it to all. (Only remove if testing on slow/old devices reveals problems.)
++ Move that freestanding event handler to the component's class scope!
++ Fix: missing var/let from zoompanner locals.
+
 
 
 2019/09/11: v0.1

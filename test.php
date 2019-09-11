@@ -40,42 +40,55 @@ z-img.framed {
 <ol>
 
 <li>
-<h4> All defaults (with some explicit margin (0.25ex) </h4>
-<p> EXPECTED: thumb width ~100px, zoom width ~500px, 1px grey borders </p>
-        <z-img zoom="basic"   class="basic spaced"   src="img/example.jpg">BASIC in-place mode
-</z-img><z-img zoom="inplace" class="inplace spaced" src="img/example.jpg">IN-PLACE mode
-</z-img><z-img zoom="popup"   class="popup spaced"   src="img/example.jpg">POPUP mode
-</z-img><z-img zoom="basic"   class="basic spaced"   src="img/example.jpg">BASIC in-place mode
-</z-img><z-img zoom="inplace" class="inplace spaced" src="img/example.jpg">IN-PLACE mode
-</z-img><z-img zoom="popup"   class="popup spaced"   src="img/example.jpg">POPUP mode
-</z-img><z-img zoom="basic"   class="basic spaced"   src="img/example.jpg">BASIC in-place mode
-</z-img><z-img zoom="basic"   class="popup spaced"   src="img/example.jpg">BASIC in-place mode
-</z-img><z-img zoom="inplace" class="inplace spaced" src="img/example.jpg">in-place mode
-</z-img><z-img zoom="inplace" class="inplace spaced" src="img/example.jpg">in-place mode
-</z-img><z-img zoom="inplace" class="inplace spaced" src="img/example.jpg">in-place mode</z-img>
-<br>    <z-img zoom="popup"   class="popup spaced"   src="img/example.jpg">POPUP mode
-</z-img><z-img zoom="popup"   class="popup spaced"   src="img/example.jpg">POPUP mode
-</z-img><z-img zoom="popup"   class="popup spaced"   src="img/example.jpg">POPUP mode
-</z-img><z-img zoom="popup"   class="popup spaced"   src="img/example.jpg">POPUP mode
-</z-img><z-img zoom="popup"   class="popup spaced"   src="img/example.jpg">POPUP mode
-</z-img><z-img zoom="popup"   class="popup spaced"   src="img/example.jpg">POPUP mode
+<h4> All defaults </h4>
+<p> EXPECTED: popup mode,  thumb width ~100px, zoom width ~500px, 1px grey borders </p>
+<z-img src="img/example.jpg">
+<hr>
+
+<li>
+<h4> Explicitly set modes </h4>
+<p> EXPECTED: basic, inplace, popup modes (in this order). And no space between them. </p>
+		<z-img class="basic"   src="img/example.jpg">
+</z-img><z-img class="inplace" src="img/example.jpg">
+</z-img><z-img class="popup"   src="img/example.jpg"></z-img>
+
+<li>
+<h4> All defaults (but various modes), with some explicit margin (0.25ex) </h4>
+<p> EXPECTED: thumb width ~100px, zoom width ~500px, 1px grey borders, even spacing </p>
+        <z-img class="basic spaced"   src="img/example.jpg">BASIC in-place mode
+</z-img><z-img class="inplace spaced" src="img/example.jpg">IN-PLACE mode
+</z-img><z-img class="popup spaced"   src="img/example.jpg">POPUP mode
+</z-img><z-img class="basic spaced"   src="img/example.jpg">BASIC in-place mode
+</z-img><z-img class="inplace spaced" src="img/example.jpg">IN-PLACE mode
+</z-img><z-img class="popup spaced"   src="img/example.jpg">POPUP mode
+</z-img><z-img class="basic spaced"   src="img/example.jpg">BASIC in-place mode
+</z-img><z-img class="popup spaced"   src="img/example.jpg">BASIC in-place mode
+</z-img><z-img class="inplace spaced" src="img/example.jpg">in-place mode
+</z-img><z-img class="inplace spaced" src="img/example.jpg">in-place mode
+</z-img><z-img class="inplace spaced" src="img/example.jpg">in-place mode</z-img>
+<br>    <z-img class="popup spaced"   src="img/example.jpg">POPUP mode
+</z-img><z-img class="popup spaced"   src="img/example.jpg">POPUP mode
+</z-img><z-img class="popup spaced"   src="img/example.jpg">POPUP mode
+</z-img><z-img class="popup spaced"   src="img/example.jpg">POPUP mode
+</z-img><z-img class="popup spaced"   src="img/example.jpg">POPUP mode
+</z-img><z-img class="popup spaced"   src="img/example.jpg">POPUP mode
 </z-img>
 <hr>
 
 <li>
 <h4> Block mode, small thumbs (50px), no margin </h4>
 <p> EXPECTED: yellow full-width stripes (as box bgnd.), magnifier icon within the thumbnail rect. </p>
-        <z-img zoom="basic"   class="basic block"   src="img/example.jpg">BASIC in-place mode
-</z-img><z-img zoom="inplace" class="inplace block" src="img/example.jpg">IN-PLACE mode
-</z-img><z-img zoom="popup"   class="popup block"   src="img/example.jpg">POPUP mode</z-img>
+        <z-img class="basic block"   src="img/example.jpg">BASIC in-place mode
+</z-img><z-img class="inplace block" src="img/example.jpg">IN-PLACE mode
+</z-img><z-img class="popup block"   src="img/example.jpg">POPUP mode</z-img>
 <hr>
 
 <li>
 <h4> 200px thumb width, variable heights; 1000px zoom width </h4>
 <p> EXPECTED: panning disabled for images < 1000px, full-size images stretched to fill the zoom view </p>
-<z-img zoom="basic"   class="basic big"   src="img/martinet-gh.jpg">BASIC in-place mode</z-img>
-<z-img zoom="popup"   class="inplace big" src="img/martinet-toad.jpg">IN-PLACE mode</z-img>
-<z-img zoom="popup"   class="popup big"   src="img/martinet-wasp.jpg">POPUP mode</z-img>
+<z-img class="basic big"   src="img/martinet-gh.jpg">BASIC in-place mode</z-img>
+<z-img class="inplace big" src="img/martinet-toad.jpg">IN-PLACE mode</z-img>
+<z-img class="popup big"   src="img/martinet-wasp.jpg">POPUP mode</z-img>
 <hr>
 
 <li>
@@ -87,14 +100,12 @@ z-img.framed {
 <!--p> NOTE: Some mysterious margin used to be there, which suddenly disappeared by some change, only to reappear again...:-o
 	But that was just the linefeeds between the tags!</p-->
 
-<z-img zoom="inplace" class="inplace framed" src="img/martinet-toad.jpg"
+		<z-img class="inplace framed" src="img/martinet-toad.jpg"
 			style="--magicon-bg: pink; --magicon-c: black; --magicon-op: 0.5;">>IN-PLACE mode
-</z-img><z-img zoom="basic"   class="basic framed"   src="img/martinet-gh.jpg"
+</z-img><z-img class="basic framed"   src="img/martinet-gh.jpg"
 			style="--magicon-bg: lightgreen; --magicon-c: black;">BASIC in-place mode
 </z-img>
-
-<br>
-		<z-img zoom="popup"   class="popup framed"   src="img/martinet-wasp.jpg"
+<br>	<z-img class="popup framed"   src="img/martinet-wasp.jpg"
 			style="--magicon-bg: yellow; --magicon-c: black; --magicon-op: 0.5;">POPUP mode</z-img>
 <hr>
 </ol>
