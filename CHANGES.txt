@@ -1,8 +1,9 @@
 ===============================================================================
  TODO:
 ===============================================================================
+- Try to reposition the zoom view, if clipped by window edges.
 - Fix: forgot to finish the 'class' -> 'mode' transition!
-- Fix: Style: Magnifier icon should be positioned to relative to the thumbnail,
+- Fix: Style: Magnifier icon should be positioned relative to the thumbnail,
   not the host rect (because it will go way off the image with display: block).
 - Fix: Style: Mysterious uneven spacing in the first test case...
   - Also in FF!
@@ -31,7 +32,12 @@
 2019/09/11
 
 + Better test page (better coverage, more systematic, explanations).
+  + Also: stop offering the obsolete test page.
 + Default 1px grey border added.
++ Don't add a default border to the zoom view in basic mode, as it just makes
+  an ugly double frame.
++ Added customizable styling props for the magnifier icon.
++ Changed the default icon bg. from lightblue to lightgrey.
 
 
 2019/09/11: v0.1

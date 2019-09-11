@@ -9,7 +9,11 @@
 	--z-zoomv-border-w:  var(--zoomv-border-w, 1px);
 	--z-zoomv-border-s:  var(--zoomv-border-s, solid);
 	--z-zoomv-border-c:  var(--zoomv-border-c, grey);
-	--z-zoomv-border-r:	 var(--zoomv-border-r, 2px);
+	--z-zoomv-border-r:  var(--zoomv-border-r, 1px);
+	--z-magicon-c:       var(--magicon-c,  black);
+	--z-magicon-bg:      var(--magicon-bg, lightgrey);
+	--z-magicon-op:      var(--magicon-op, 0.3);
+	--z-magicon-h:       var(--magicon-h, 12px);
 
 	border: 1px solid grey; /* Clients can override/disable; I find it better to have it by default. */
 
@@ -47,10 +51,13 @@ img {
 
 #magicon {
 	user-select: none;
+	font-size: var(--z-magicon-h);
 	position: absolute;
 	bottom: 0; right: 0;
-	background: lightblue; opacity: 0.3; border: 1px dotted black;
 	padding: 1px 2px;
+	border: 1px dotted var(--z-magicon-c);
+	color: var(--z-magicon-c); background: var(--z-magicon-bg);
+	opacity: var(--z-magicon-op);
 }
 /* Alternative way to show the mag. symbol, but restricted to plain text: */
 /*#magicon::before { inline; content: "🔍"; } */
@@ -62,6 +69,10 @@ img {
 
 /* In this mode, there's no separate thumbnail, so the full-size image is shown
    when no zooming, to reset the panning position & zoom level. */
+
+:host(.basic) {
+	--z-zoomv-border-w: var(--zoomv-border-w, 0px);
+}
 
 :host(.basic) #thumb { display: none; }
 
