@@ -1,6 +1,3 @@
-<!DOCTYPE html>
-<meta charset="utf-8">
-
 <template id="zoomable-img">
 <style>
 /*--- Common ----------------------------------------------------------------*/
@@ -125,26 +122,25 @@ img {
 <div id='magicon'>🔍</div>
 </template>
 
-<script>
+<script>//---------------------------------------------------------------------
 function zoompanner(e, zoompad, zoomview) {
-	var img = zoomview.getElementsByTagName('img')[0];
-	if (img.naturalHeight < img.height || img.naturalWidth < img.width) {
-	    zoomview.style.backgroundSize = 'cover';
-	    return;
-	}
-	e.offsetX !== null ? offsetX = e.offsetX : offsetX = e.touches[0].pageX;
-	e.offsetY !== null ? offsetY = e.offsetY : offsetY = e.touches[0].pageY;
-	//console.log("X=" + offsetX + ", Y=" + offsetY);
-	x = offsetX / zoompad.offsetWidth * 100
-	y = offsetY / zoompad.offsetHeight * 100
-	// Yes, it did go to negative at the edges (depending on the cursor?), causing wraparound of the bg img...:
-	if (x < 0) x = 0;
-	if (y < 0) y = 0;
-	//console.log(zoomview.style.backgroundPosition + " --> " + "zbX=" + x + ", zbY=" + y);
-	zoomview.style.backgroundPosition = x + '% ' + y + '%';
+		var img = zoomview.getElementsByTagName('img')[0];
+		if (img.naturalHeight < img.height || img.naturalWidth < img.width) {
+		    zoomview.style.backgroundSize = 'cover';
+		    return;
+		}
+		e.offsetX !== null ? offsetX = e.offsetX : offsetX = e.touches[0].pageX;
+		e.offsetY !== null ? offsetY = e.offsetY : offsetY = e.touches[0].pageY;
+		//console.log("X=" + offsetX + ", Y=" + offsetY);
+		x = offsetX / zoompad.offsetWidth * 100
+		y = offsetY / zoompad.offsetHeight * 100
+		// Yes, it did go to negative at the edges (depending on the cursor?), causing wraparound of the bg img...:
+		if (x < 0) x = 0;
+		if (y < 0) y = 0;
+		//console.log(zoomview.style.backgroundPosition + " --> " + "zbX=" + x + ", zbY=" + y);
+		zoomview.style.backgroundPosition = x + '% ' + y + '%';
 }
 
-//----------------------------------------
 customElements.define('z-img', class extends HTMLElement {
 	constructor() {
 		super();
@@ -175,7 +171,7 @@ customElements.define('z-img', class extends HTMLElement {
 		
 		// Setup the event handlers:
 		var mode = this.getAttribute('zoom');
-		var omm_teh = (mode == 'popup' ? this.popup_zoom : '');
+		var omm_teh = (mode == 'popup' ? this.popup_zoom: '');
 		var omm_feh = (mode == 'popup' ? '' : this.zoom);
 		if (omm_teh) { console.log("set thumb handler -> " + omm_teh); thumb.addEventListener('mousemove', omm_teh); }
 		if (omm_feh) { console.log("set fig handler -> " + omm_feh); zoomv.addEventListener('mousemove', omm_feh); }
@@ -186,22 +182,3 @@ customElements.define('z-img', class extends HTMLElement {
 
 });
 </script>
-
-<!--- TEST... ---------------------------------------------------------------->
-<style>
-z-img {
-	border: 4px solid pink;
-	margin: 2px 0.5ex;
-}
-</style>
-
-<z-img zoom="basic"   class="basic"   src="example.jpg">BASIC in-place mode
-</z-img><z-img zoom="inplace" class="inplace" src="example.jpg">IN-PLACE mode
-</z-img><z-img zoom="popup"   class="popup"   src="example.jpg">POPUP mode</z-img>
-
-<hr>
-
-<z-img zoom="basic"   class="basic"   src="example.jpg">BASIC in-place mode</z-img>
-<z-img zoom="inplace" class="inplace" src="example.jpg">IN-PLACE mode</z-img>
-<z-img zoom="popup"   class="popup"   src="example.jpg">POPUP mode</z-img>
-<hr>

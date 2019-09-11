@@ -9,6 +9,8 @@
 - Add some transparent frame (pseudo margin) to the zoomed views!
 - The border styles (i.e. the rounded corners) are not the same yet.
 - Off by one error in IE11 (didn't try Edge): garbage at the top of the zoom view.
+- Support height-constrained thumbnails, too!
+- Support width AND hight constraints for thumbs, with some default autocropping/-padding...
 
 
 ===============================================================================

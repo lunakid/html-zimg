@@ -1,45 +1,32 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 
-<a href="component+test.html">Go to the pure HTML implementation...</a><hr>
+<a href="test-oldstyle.php">Go to the old-style PHP-infested implementation...</a><hr>
 
-<?php
-function DOM($mode, $img_url)
-{
-	$ieh = ($mode == 'popup' ? " onmousemove='popup_zoom(event)'" : "");
-	$feh = ($mode == 'popup' ? "" : " onmousemove='zoom(event)'");
-	return ""
-		. "<div class='zoomable $mode'>"
-		. "<img class='thumb' src='$img_url'" . $ieh . ">"
-		. "<figure class='zoom' style='background-image: url($img_url)'" . $feh . ">"
-		.	"<img src='$img_url'>"
-		. "</figure>"
-		. "<div class='mag'></div>"
-		. "</div>" // no '\n', as that would be rendered as visible spacing!
-	;
+<!--- TEST... ---------------------------------------------------------------->
+<?php print file_get_contents('component.html'); //!!?? This still isn't solved with WHATWG's HTML?! ?>
+
+<style>
+z-img {
+	border: 4px solid pink;
+	margin: 2px 0.5ex;
 }
+</style>
 
-function zoomable_img($img_url, $mode = 'popup')
-{
-	static $onceonly_stuff = false;
-	if (!$onceonly_stuff) {
-	     $onceonly_stuff = true;
-	     print @file_get_contents("classic.html");
-	}
+        <z-img zoom="basic"   class="basic"   src="img/example.jpg">BASIC in-place mode
+</z-img><z-img zoom="inplace" class="inplace" src="img/example.jpg">IN-PLACE mode
+</z-img><z-img zoom="popup"   class="popup"   src="img/example.jpg">POPUP mode</z-img>
 
-	print DOM($mode, $img_url);
-}
+<hr>
 
+<z-img zoom="basic"   class="basic"   src="img/example.jpg">BASIC in-place mode</z-img>
+<z-img zoom="inplace" class="inplace" src="img/example.jpg">IN-PLACE mode</z-img>
+<z-img zoom="popup"   class="popup"   src="img/example.jpg">POPUP mode</z-img>
+<hr>
 
-$img = "example.jpg";
-zoomable_img($img, 'basic');
-zoomable_img($img, 'inplace');
-zoomable_img($img, 'popup');
-echo "<hr>";
-zoomable_img($img, 'basic');	echo " ";
-zoomable_img($img, 'inplace');	echo " ";
-zoomable_img($img, 'popup');	echo " ";
-echo "<hr>";
-zoomable_img($img, 'basic');	echo "<hr>";
-zoomable_img($img, 'inplace');	echo "<hr>";
-zoomable_img($img, 'popup');	echo "<hr>";
+<z-img zoom="basic"   class="basic"   src="img/martinet-gh.jpg">BASIC in-place mode</z-img>
+<hr>
+<z-img zoom="inplace" class="inplace" src="img/martinet-toad.jpg">IN-PLACE mode</z-img>
+<hr>
+<z-img zoom="popup"   class="popup"   src="img/martinet-wasp.jpg">POPUP mode</z-img>
+<hr>
