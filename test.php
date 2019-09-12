@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 
-<!--a href="test-oldstyle.php">Go to the old-style PHP-infested implementation...</a><hr-->
-
 <style>
 h4 { margin: 1ex 0; text-decoration: none; font-family: Arial Narrow, Arial; }
 p { margin: 1ex 0; }
@@ -46,11 +44,12 @@ z-img.framed {
 <hr>
 
 <li>
-<h4> Explicitly set modes </h4>
-<p> EXPECTED: basic, inplace, popup modes (in this order). And no space between them. </p>
-		<z-img class="basic"   src="img/example.jpg">
-</z-img><z-img class="inplace" src="img/example.jpg">
-</z-img><z-img class="popup"   src="img/example.jpg"></z-img>
+<h4> Explicitly set modes (+ title attr. for "tooltips")</h4>
+<p> EXPECTED: basic, inplace, popup modes (in this order). And no space between them.
+<br>	Also: tooltip messages should appear on hover, indicating the zoom mode. </p>
+		<z-img class="basic"   src="img/example.jpg" title="basic mode">
+</z-img><z-img class="inplace" src="img/example.jpg" title="inplace mode">
+</z-img><z-img class="popup"   src="img/example.jpg" title="popup mode"></z-img>
 
 <li>
 <h4> All defaults (but various modes), with some explicit margin (0.25ex) </h4>

@@ -3,8 +3,8 @@
 Versatile image thumbnail element with pannable autozoom
 
 
-Most importatntly...
---------------------
+Most importantly:
+-----------------
 
 The example images are Édouard Martinet's amazing metallic animal sculptures.
 
@@ -53,3 +53,9 @@ Popup (`popup`, the default):
 	the background image will be used for zooming/panning instead.
 	It only exists to guide the aspect-ratio when resizing the `FIGURE`.
 
+
+Compatiblity
+------------
+
+Tested and works OK on Android 6-7 (except for no panning with touch).
+See the TODO section in CHANGES.txt for known issues.
