@@ -1,17 +1,48 @@
 <!DOCTYPE html>
+<html><head>
 <meta charset="utf-8">
-
 <style>
 h4 { margin: 1ex 0; text-decoration: none; font-family: Arial Narrow, Arial; }
 p { margin: 1ex 0; }
 ol { padding-left: 1em; }
 </style>
+</head><body>
+
+<script>
+//!! Thanks, WHATWG for not supporting HTML import. :-(
+window.onload = e => {
+	//
+	// Load & activate the HTML component...
+	//
+	//Based on: https://stackoverflow.com/a/54092677/1479945
+    const components = document.querySelectorAll('.html-component')
+    const loadComponent = async c => {
+        const {name} = c.dataset
+        const response = await fetch(`${name}.htpl?123`)
+        const html = await response.text()
+        c.innerHTML = html
+        // OK, now get the JS, too:
+		load_js(name + '.js' + '?123');
+	}
+    [...components].forEach(loadComponent)
+
+	function load_js(url) {
+		//https://stackoverflow.com/a/44807594/1479945
+		const scriptPromise = new Promise((resolve, reject) => {
+		  const script = document.createElement('script');
+		  document.body.appendChild(script);
+		  script.onload = resolve; //!
+		  script.onerror = reject;
+		  script.async = true; // better to `defer` instead?
+		  script.src = url;
+		});
+		//scriptPromise.then(() => {});
+	}
+}
+</script>
 
 <!--- TEST... ---------------------------------------------------------------->
-<?php //!!?? This still isn't solved with WHATWG's HTML?!
-     print file_get_contents('component.htpl');
-     print "<script>" . file_get_contents('component.js') . "</script>";
-?>
+<div class="html-component" data-name="component"></div> <!-- Any better way in 2019, with WHATWG's HTML?! -->
 
 <style>
 z-img.spaced { background: red; /*!!DEBUG!!*/
@@ -111,3 +142,4 @@ z-img.framed {
 			style="--magicon-bg: yellow; --magicon-c: black; --magicon-op: 0.5;">POPUP mode</z-img>
 <hr>
 </ol>
+</body></html>

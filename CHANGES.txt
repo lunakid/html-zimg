@@ -1,6 +1,7 @@
 ===============================================================================
  TODO:
 ===============================================================================
+- Support sizing with plain CSS width/height; drop the --thumb-w stuff.
 - Try to reposition the zoom view, if clipped by window edges.
 - Fix: Style: Magnifier icon should be positioned relative to the thumbnail,
   not the host rect (because it will go way off the image with display: block).
@@ -28,6 +29,14 @@
  DONE:
 ===============================================================================
 
+2019/09/12
+
++ Pure HTML test.html: it can now load the component "manually" from plain JS.
++ The PHP test wrapper has been made optional.
+  (Still keeping it for test targets, where the JS comp. loading hack fails.)
++ README -> .md
+
+
 2019/09/11: 0.2
 
 + Better test page (better coverage, more systematic, explanations).
@@ -45,7 +54,6 @@
   + Add it to all. (Only remove if testing on slow/old devices reveals problems.)
 + Move that freestanding event handler to the component's class scope!
 + Fix: missing var/let from zoompanner locals.
-
 
 
 2019/09/11: v0.1

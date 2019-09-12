@@ -98,7 +98,7 @@ img {
 	width: 500px; width: var(--z-zoomv-w);
 	transition: width 0.1s;
 	border: var(--z-zoomv-border-w) var(--z-zoomv-border-s) var(--z-zoomv-border-c);
-	border-radius: var(--z-zoomv-border-r);;
+	border-radius: var(--z-zoomv-border-r);
 	z-index: 10; /* some subsequent elements did cover this otherwise */
 }
 
@@ -118,7 +118,7 @@ img {
 	-transition: width 0.1s; /* does nothing in Chrome */
 	z-index: 10; /* some subsequent elements did cover this otherwise */
 	border: var(--z-zoomv-border-w) var(--z-zoomv-border-s) var(--z-zoomv-border-c);
-	border-radius: var(--z-zoomv-border-r);;
+	border-radius: var(--z-zoomv-border-r);
 }
 </style>
 
@@ -129,7 +129,9 @@ img {
 <div id='magicon'>🔍</div>
 </template>
 
-<script>//---------------------------------------------------------------------
+
+<!-- See the separate .js, loaded from test.html "manually" (until HTML import becomes a thing again). :-/
+<script onload="?">//---------------------------------------------------------------------
 
 customElements.define('z-img', class extends HTMLElement {
 	constructor() {
@@ -189,8 +191,9 @@ customElements.define('z-img', class extends HTMLElement {
 		// Yes, it did go to negative at the edges (depending on the cursor?), causing wraparound of the bg img...:
 		if (x < 0) x = 0;
 		if (y < 0) y = 0;
-		//console.log(zoomview.style.backgroundPosition + " --> " + "zbX=" + x + ", zbY=" + y);
+		//console.log(zoomview.style.backgroundPosition + " -> " + "zbX=" + x + ", zbY=" + y);
 		zoomview.style.backgroundPosition = x + '% ' + y + '%';
 	}
 });
 </script>
+-->
