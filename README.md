@@ -7,25 +7,26 @@ Simple image (thumbnail) element with autozoom + panning
 Most importantly:
 -----------------
 
-The example images are Édouard Martinet's amazing metallic animal sculptures.
+The example images are [Édouard Martinet](http://www.edouardmartinet.fr/)'s amazing metallic animal sculptures.
 
 
 Usage
 -----
 
 Get the component's HTML template (`component.htpl`) and the corresponding JS file
-somehow loaded/merged into your page (by whatever means available in your setup),
+somehow loaded/merged into your page (by whatever means available in your setup;
+see `test.html` for a crude example of how it can be done manually, in pure JS),
 and then just do
 
-	`<z-img src="url"></z-img>`
+    <z-img src="url"></z-img>
 
 or, optionally:
 
-	`<z-img src="url" class="inplace"></z-img>`
+    <z-img src="url" class="inplace"></z-img>
 
-in the HTML.
+in the HTML, for stuff like this (cropped from the test page):
 
-(NOTE: see `test.html` for a crude example of how it can be done manually, in pure JS.)
+  ![screenshot](https://github.com/lunakid/html-zimg/blob/master/img/screenshot.gif)
 
 
 How does it work + Supported modes
@@ -33,8 +34,8 @@ How does it work + Supported modes
 
 The idea is auto-opening a magnifier view (an extra DOM element) for "zooming into"
 the full-size image, when hovering over its thumbnail. If the image does not fit the
-zoom view, it's also panned (as a background image, repositioned) by `mousemove`
-events.
+zoom view, it's also panned (as a background image, repositioned by `mousemove`
+events).
 
 (Note: "zooming" is a bit of a misnomer now, as there's just a fixed-size magnifier
 yet...)
@@ -52,8 +53,8 @@ Basic in-place (`basic`):
 	the thumbnail view, and is part of the normal content flow, therefore it will
 	also change the page layout on zooming, pushing content away to make room.
 
-	The extra thumbnail image in the DOM is a dummy, unused, invisible element,
-	solely to support a uniform DOM structure.
+	(The's an unused, invisible, extra dummy thumbnail image in this mode, solely
+	to support a uniform DOM structure, shared by all the different modes.)
 	
 
 In-place (`inplace`):
